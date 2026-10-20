@@ -1,0 +1,18 @@
+[project]
+name = "clone-to-confidence"
+version = "0.1.0"
+description = "Deterministic clean-machine rebuildability audits for repositories"
+requires-python = ">=3.12,<3.13"
+readme = "README.md"
+license = {file = "LICENSE"}
+dependencies = []
+
+[project.scripts]
+clone-to-confidence = "clone_to_confidence.cli:main"
+
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/clone_to_confidence"]
