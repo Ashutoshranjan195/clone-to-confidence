@@ -85,7 +85,9 @@ All commands ran from `/c/Users/ashutosh/omnirush.ai`.
 | Test suite with network namespace disabled via `unshare -n` | PASS — 7 tests |
 | Dry-run fixer coverage | PASS |
 | `git diff --check` | PASS |
-| Docker build | NOT RUN — Docker is unavailable in the environment |
+| Dockerfile testability | PASS — Dockerfile now includes `tests/` for container test execution |
+| Docker build attempt | BLOCKED — `docker` executable is unavailable (`docker: command not found`) |
+| Tests inside Docker | NOT RUN — blocked by unavailable Docker runtime |
 
 The verifier reported `Docker build: UNAVAILABLE`; Docker was not claimed as passing.
 
@@ -166,13 +168,13 @@ Remaining risks:
 
 - Secret scanning is heuristic and is not a substitute for a dedicated scanner such as Gitleaks.
 - Docker verification is not a complete security sandbox. Do not mount the host filesystem or Docker socket for untrusted repositories.
-- The Docker image was not built here because Docker is unavailable.
+- The Docker image was not built here because Docker is unavailable. The Dockerfile now copies the test suite so the documented network-disabled container test can run when Docker is available.
 - The source contains the regex used to detect Windows absolute paths; this is detector logic, not a machine-specific path.
 
 ## 11. Limitations and recommended improvements
 
 - Add CI for Python 3.12, unit tests, `uv lock --check`, package builds, and security scanning.
-- Run and record a real Docker build on a host with Docker installed.
+- Run and record a real Docker build and `docker run --rm --network none clone-to-confidence python -m unittest discover -s tests -v` on a host with Docker installed.
 - Add an explicit user-supplied verification policy for more test command types.
 - Add a release tag and GitHub repository metadata after publication.
 - Consider adding a `SECURITY.md`, contribution guide, and changelog for a larger public community.
@@ -202,4 +204,4 @@ Final manual submission checklist:
 
 **Ready for public source publication, with one unverified environment-dependent item.**
 
-The project is organized, tested, packaged, audited cleanly, and committed. It is safe to publish after a maintainer reviews the README and runs the Docker build on a host with Docker installed. It is not yet honestly reportable as published because no GitHub push has succeeded.
+The project is organized, tested, packaged, audited cleanly, and committed. The Dockerfile is configured to include the test suite, but its build and in-container test remain unverified until Docker is available. It is safe to publish after a maintainer reviews the README and runs the Docker build on a host with Docker installed. It is not yet honestly reportable as published because no GitHub push has succeeded.

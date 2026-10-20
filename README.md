@@ -66,6 +66,14 @@ Only missing `.env.example` and `.python-version` files are proposed for Python 
 clone-to-confidence verify .
 ```
 
+When Docker is available, build and run the included test suite without network access:
+
+```bash
+docker build --pull --progress=plain -t clone-to-confidence .
+docker run --rm --network none clone-to-confidence \
+  python -m unittest discover -s tests -v
+```
+
 Verification is explicit. It runs static checks and attempts a real `docker build` when Docker is installed. It reports Docker as `UNAVAILABLE` when Docker cannot be found. The verifier executes only a small allowlist of documented test commands (`python -m unittest`, `pytest`, `npm test`, `cargo test`, or `go test`) using argument lists; unknown README commands remain `SKIPPED` rather than being guessed. Do not mount the host filesystem or Docker socket into untrusted builds: Docker verification is not a complete security sandbox.
 
 ## Test
