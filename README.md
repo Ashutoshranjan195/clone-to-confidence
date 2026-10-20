@@ -74,12 +74,12 @@ docker run --rm --network none clone-to-confidence \
   python -m unittest discover -s tests -v
 ```
 
-Verification is explicit. It runs static checks and attempts a real `docker build` when Docker is installed. It reports Docker as `UNAVAILABLE` when Docker cannot be found. The verifier executes only a small allowlist of documented test commands (`python -m unittest`, `pytest`, `npm test`, `cargo test`, or `go test`) using argument lists; unknown README commands remain `SKIPPED` rather than being guessed. Do not mount the host filesystem or Docker socket into untrusted builds: Docker verification is not a complete security sandbox.
+Verification is explicit. It runs static checks and attempts a real `docker build` when Docker is installed. It reports Docker as `UNAVAILABLE` when Docker cannot be found. The verifier executes only a small allowlist of documented test commands (`python -m unittest`, `uv run python -m unittest`, `pytest`, `uv run pytest`, `npm test`, `cargo test`, or `go test`) using argument lists; unknown README commands remain `SKIPPED` rather than being guessed. Do not mount the host filesystem or Docker socket into untrusted builds: Docker verification is not a complete security sandbox.
 
 ## Test
 
 ```bash
-python -m unittest discover -s tests -v
+uv run python -m unittest discover -s tests -v
 ```
 
 ## Security considerations

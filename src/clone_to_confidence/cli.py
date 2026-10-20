@@ -22,5 +22,11 @@ def main(argv=None):
   if not ch:print("No safe deterministic fixes identified.")
   for action,rel,content in ch:print(f"{action.upper()} {rel}\n{content.rstrip()}")
   return 0
- r=verify(n.path); print(report(r["static"],n.path)); print(f"\nDocker build: {r['docker']['status']}"); print(f"Tests: {r['tests']['status']}"); return 1 if any(c.status=="FAIL" for c in r["static"]) or r["docker"]["status"]=="FAIL" or r["tests"]["status"]=="FAIL" else 0
+ r=verify(n.path); print(report(r["static"],n.path))
+ for label, key in (("Docker build", "docker"), ("Tests", "tests")):
+  item = r[key]
+  print(f"\n{label}: {item['status']}")
+  if item["status"] != "PASS" and item.get("evidence"):
+   print(f"{label} evidence:\n{item['evidence']}")
+ return 1 if any(c.status=="FAIL" for c in r["static"]) or r["docker"]["status"]=="FAIL" or r["tests"]["status"]=="FAIL" else 0
 if __name__=="__main__":sys.exit(main())

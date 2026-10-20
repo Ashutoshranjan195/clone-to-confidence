@@ -83,12 +83,12 @@ All commands ran from /c/Users/ashutosh/omnirush.ai.
 
 Check	Result
 uv lock --check	PASS
-uv run python -m unittest discover -s tests -v	PASS — 7 tests
+uv run python -m unittest discover -s tests -v	PASS — 9 tests
 uv build --wheel --sdist --out-dir /tmp/clone-to-confidence-dist-final	PASS
 CLI text audit	PASS — 8 PASS, 0 FAIL, 0 WARN
 CLI JSON audit	PASS — valid JSON
 CLI verification	PASS for static checks and tests
-Test suite with network namespace disabled via unshare -n	PASS — 7 tests
+Test suite with network namespace disabled via unshare -n	PASS — 9 tests
 Dry-run fixer coverage	PASS
 git diff --check	PASS
 Dockerfile testability	PASS — Dockerfile now includes tests/ for container test execution
@@ -110,6 +110,8 @@ Improved absolute-path detection for JSON-escaped Windows paths.
 Added regression coverage for escaped Windows paths.
 
 Changed the synthetic secret test value to avoid committing a realistic-looking API token.
+
+Updated `verify` to recognize the documented `uv run` test-command prefix, execute it through an argument list without `shell=True`, and print bounded, secret-redacted failure evidence. Added regression tests for command detection and failure evidence.
 
 8. Git status and commits
 Verified current state:
