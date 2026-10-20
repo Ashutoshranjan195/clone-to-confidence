@@ -43,165 +43,155 @@ clone-to-confidence/
     ├── README.md
     ├── app.py
     └── pyproject.toml
-```
 
 Main commands:
 
-- `clone-to-confidence audit PATH`
-- `clone-to-confidence audit PATH --format json`
-- `clone-to-confidence verify PATH`
-- `clone-to-confidence fix PATH --dry-run`
-- `clone-to-confidence fix PATH --apply`
+clone-to-confidence audit PATH
 
-## 4. Technologies and dependencies
+clone-to-confidence audit PATH --format json
 
-- Python 3.12 (`.python-version` and `requires-python = ">=3.12,<3.13"`)
-- Python standard library for the runtime implementation
-- `argparse` for CLI parsing
-- `unittest` for tests
-- `uv` for environment and lockfile management
-- Hatchling as the PEP 517 build backend
-- Dockerfile for isolated verification
-- No paid APIs, hosted services, databases, or runtime API keys
+clone-to-confidence verify PATH
 
-The application dependency list is empty. `uv.lock` pins the build environment resolution.
+clone-to-confidence fix PATH --dry-run
 
-## 5. Buildathon track recommendation
+clone-to-confidence fix PATH --apply
 
-Recommended track: **Developer Tools & Open Source**. The project is a local developer CLI that audits reproducibility, provides evidence-backed remediation, and verifies repositories with Docker when available. It does not depend on a hosted service, paid API, or generic AI coding workflow.
+4. Technologies and dependencies
+Python 3.12 (.python-version and requires-python = ">=3.12,<3.13")
 
-## 6. Tests and checks executed
+Python standard library for the runtime implementation
 
-All commands ran from `/c/Users/ashutosh/omnirush.ai`.
+argparse for CLI parsing
 
-| Check | Result |
-|---|---|
-| `uv lock --check` | PASS |
-| `uv run python -m unittest discover -s tests -v` | PASS — 7 tests |
-| `uv build --wheel --sdist --out-dir /tmp/clone-to-confidence-dist-final` | PASS |
-| CLI text audit | PASS — 8 PASS, 0 FAIL, 0 WARN |
-| CLI JSON audit | PASS — valid JSON |
-| CLI verification | PASS for static checks and tests |
-| Test suite with network namespace disabled via `unshare -n` | PASS — 7 tests |
-| Dry-run fixer coverage | PASS |
-| `git diff --check` | PASS |
-| Dockerfile testability | PASS — Dockerfile now includes `tests/` for container test execution |
-| Docker build attempt | BLOCKED — `docker` executable is unavailable (`docker: command not found`) |
-| Tests inside Docker | NOT RUN — blocked by unavailable Docker runtime |
+unittest for tests
 
-The verifier reported `Docker build: UNAVAILABLE`; Docker was not claimed as passing.
+uv for environment and lockfile management
 
-## 7. Issues discovered and fixes applied
+Hatchling as the PEP 517 build backend
 
-- Removed tracked `.opencode/omnirush.json`, which contained a developer-specific absolute Windows workspace path.
-- Added `.opencode/` to `.gitignore` so generated workspace metadata is not published.
-- Hardened `.dockerignore` against `.env`, `.env.*`, and generated `.opencode` content entering Docker build contexts.
-- Fixed the dependency audit so a plain `requirements.txt` is not incorrectly treated as its own lockfile.
-- Improved absolute-path detection for JSON-escaped Windows paths.
-- Added regression coverage for escaped Windows paths.
-- Changed the synthetic secret test value to avoid committing a realistic-looking API token.
+Dockerfile for isolated verification
 
-## 8. Git status and commits
+No paid APIs, hosted services, databases, or runtime API keys
 
-Verified current state in this session:
+The application dependency list is empty. uv.lock pins the build environment resolution.
 
-```text
-Branch: master
+5. Buildathon track recommendation
+Recommended track: Developer Tools & Open Source. The project is a local developer CLI that audits reproducibility, provides evidence-backed remediation, and verifies repositories with Docker when available. It does not depend on a hosted service, paid API, or generic AI coding workflow.
+
+6. Tests and checks executed
+All commands ran from /c/Users/ashutosh/omnirush.ai.
+
+Check	Result
+uv lock --check	PASS
+uv run python -m unittest discover -s tests -v	PASS — 7 tests
+uv build --wheel --sdist --out-dir /tmp/clone-to-confidence-dist-final	PASS
+CLI text audit	PASS — 8 PASS, 0 FAIL, 0 WARN
+CLI JSON audit	PASS — valid JSON
+CLI verification	PASS for static checks and tests
+Test suite with network namespace disabled via unshare -n	PASS — 7 tests
+Dry-run fixer coverage	PASS
+git diff --check	PASS
+Dockerfile testability	PASS — Dockerfile now includes tests/ for container test execution
+Docker build attempt	BLOCKED — docker executable is unavailable (docker: command not found)
+Tests inside Docker	NOT RUN — blocked by unavailable Docker runtime
+The verifier reported Docker build: UNAVAILABLE; Docker was not claimed as passing.
+
+7. Issues discovered and fixes applied
+Removed tracked .opencode/omnirush.json, which contained a developer-specific absolute Windows workspace path.
+
+Added .opencode/ to .gitignore so generated workspace metadata is not published.
+
+Hardened .dockerignore against .env, .env.*, and generated .opencode content entering Docker build contexts.
+
+Fixed the dependency audit so a plain requirements.txt is not incorrectly treated as its own lockfile.
+
+Improved absolute-path detection for JSON-escaped Windows paths.
+
+Added regression coverage for escaped Windows paths.
+
+Changed the synthetic secret test value to avoid committing a realistic-looking API token.
+
+8. Git status and commits
+Verified current state:
+
+text
+Copy
+Download
+Branch: main
 Working tree: clean
-Remote: none configured
-```
-
-Current repository:
-
-```text
-Branch: master
-Working tree: clean
-```
-
+Remote: origin (https://github.com/Ashutoshranjan195/clone-to-confidence.git)
 Recent commits:
 
-```text
+text
+Copy
+Download
+9d3d010 chore: untrack local OmniRush config
+7462b7e fix: make Docker image testable
+5b51e84 docs: refresh submission status
 9a9558a docs: add buildathon submission details
 643deca docs: record final release commit
-da19e30 docs: add project release report
-f1fdb70 chore: prepare project for public release
-d399ade fix: complete verification and clean audit
-```
+9. GitHub publishing status
+Successfully Published.
 
-No GitHub remote is configured.
+Repository URL: https://github.com/Ashutoshranjan195/clone-to-confidence
 
-## 9. GitHub publishing status
+Status: Public
 
-**Not published.** GitHub publication could not be completed from this environment because:
+Branch: main
 
-- GitHub CLI (`gh`) is not installed.
-- No GitHub authentication is available.
-- No Git remote is configured.
+Latest verified commit: 9d3d010
 
-No repository URL is claimed because no push succeeded.
+The code has been successfully pushed and verified on GitHub. The default branch is main. The local opencode.jsonc was successfully untracked and ignored to prevent exposing local machine paths.
 
-To publish manually:
-
-```bash
-# Install GitHub CLI, then authenticate
-gh auth login
-
-# From the project root, after creating the public repository clone-to-confidence
-git remote add origin https://github.com/<your-username>/clone-to-confidence.git
-git push -u origin master
-```
-
-After pushing, verify the URL and branch on GitHub before treating the project as published.
-
-## 10. Security checks and remaining risks
-
+10. Security checks and remaining risks
 Completed checks:
 
-- No tracked `.env`, private key, certificate, or credential-named files.
-- No obvious API keys, private keys, GitHub tokens, or passwords found in tracked project content.
-- `.env.example` contains placeholders only.
-- Machine-specific workspace metadata was removed from tracked files.
-- `.env` and `.env.*` are excluded from Docker contexts, while `.env.example` remains allowed.
-- Audit does not execute repository code.
+No tracked .env, private key, certificate, or credential-named files.
+
+No obvious API keys, private keys, GitHub tokens, or passwords found in tracked project content.
+
+.env.example contains placeholders only.
+
+Machine-specific workspace metadata was removed from tracked files.
+
+.env and .env.* are excluded from Docker contexts, while .env.example remains allowed.
+
+Audit does not execute repository code.
 
 Remaining risks:
 
-- Secret scanning is heuristic and is not a substitute for a dedicated scanner such as Gitleaks.
-- Docker verification is not a complete security sandbox. Do not mount the host filesystem or Docker socket for untrusted repositories.
-- The Docker image was not built here because Docker is unavailable. The Dockerfile now copies the test suite so the documented network-disabled container test can run when Docker is available.
-- The source contains the regex used to detect Windows absolute paths; this is detector logic, not a machine-specific path.
+Secret scanning is heuristic and is not a substitute for a dedicated scanner such as Gitleaks.
 
-## 11. Limitations and recommended improvements
+Docker verification is not a complete security sandbox. Do not mount the host filesystem or Docker socket for untrusted repositories.
 
-- Add CI for Python 3.12, unit tests, `uv lock --check`, package builds, and security scanning.
-- Run and record a real Docker build and `docker run --rm --network none clone-to-confidence python -m unittest discover -s tests -v` on a host with Docker installed.
-- Add an explicit user-supplied verification policy for more test command types.
-- Add a release tag and GitHub repository metadata after publication.
-- Consider adding a `SECURITY.md`, contribution guide, and changelog for a larger public community.
+The Docker image was not built here because Docker is unavailable. The Dockerfile now copies the test suite so the documented network-disabled container test can run when Docker is available.
 
-## 12. Buildathon submission preparation
+The source contains the regex used to detect Windows absolute paths; this is detector logic, not a machine-specific path.
 
-- Deadline: **20 October 2026 at 11:59 PM IST**, as provided by the user; this deadline was not independently verified from the authenticated dashboard in this session.
+11. Limitations and recommended improvements
+Add CI for Python 3.12, unit tests, uv lock --check, package builds, and security scanning.
 
-- Recommended track: Developer Tools & Open Source
-- Public GitHub URL: not available; no push has succeeded
-- Concise description: “Clone to Confidence audits repositories for clean-machine rebuildability, explains failures with evidence, proposes safe fixes, and verifies Docker builds without executing code during audit.”
-- Relevant OmniRush build session: `ses_eab191c06ffeJzn2r3dp5pZBmT` (`Clone to Confidence CLI Implementation`)
-- Demo video: not available in this workspace
-- Live demo: not available; the product is a local CLI
-- Submission ID: not created
+Run and record a real Docker build and docker run --rm --network none clone-to-confidence python -m unittest discover -s tests -v on a host with Docker installed.
 
-Final manual submission checklist:
+Add an explicit user-supplied verification policy for more test command types.
 
-1. Create or select a public GitHub repository named `clone-to-confidence`.
-2. Push the clean `master` branch and record the actual public URL.
-3. Run the Docker build on a host with Docker installed and record the result.
-4. Optionally record a short terminal demo showing audit, JSON output, safe dry-run, and verify commands.
-5. Open `https://omnirush.ai/console/buildathon`, select Developer Tools & Open Source, enter the actual GitHub URL, add the description and session ID above, review the checklist, and submit manually.
-6. Do not invent demo links, a Submission ID, or a repository URL.
+Add a release tag and GitHub repository metadata after publication.
 
-## 13. Final readiness assessment
+Consider adding a SECURITY.md, contribution guide, and changelog for a larger public community.
 
-**Ready for public source publication, with one unverified environment-dependent item.**
+12. Buildathon submission preparation
+Deadline: 20 October 2026 at 11:59 PM IST
 
-The project is organized, tested, packaged, audited cleanly, and committed. The Dockerfile is configured to include the test suite, but its build and in-container test remain unverified until Docker is available. It is safe to publish after a maintainer reviews the README and runs the Docker build on a host with Docker installed. It is not yet honestly reportable as published because no GitHub push has succeeded.
+Recommended track: Developer Tools & Open Source
+
+Public GitHub URL: https://github.com/Ashutoshranjan195/clone-to-confidence
+
+Concise description: “Clone to Confidence audits repositories for clean-machine rebuildability, explains failures with evidence, proposes safe fixes, and verifies Docker builds without executing code during audit.”
+
+Relevant OmniRush build session: ses_eab191c06ffeJzn2r3dp5pZBmT (Clone to Confidence CLI Implementation)
+
+Demo video: Not available (optional)
+
+Live demo: Not available (local CLI tool)
+
+Submission ID: Pending OmniRush dashboard submission.
