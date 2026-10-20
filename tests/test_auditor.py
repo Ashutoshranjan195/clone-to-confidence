@@ -9,8 +9,10 @@ class AuditorTests(unittest.TestCase):
   d=self.make(); (d/".git").mkdir(); cs=audit(d); self.assertEqual(len(cs),8); self.assertTrue(json.loads(report(cs,d,"json"))["checks"])
  def test_missing_items_and_absolute_path(self):
   d=self.make("/home/" + "alice/project\n"); (d/"uv.lock").unlink(); (d/".python-version").unlink(); (d/"Dockerfile").unlink(); self.assertEqual(audit(d)[1].status,"FAIL"); self.assertEqual(audit(d)[2].status,"FAIL"); self.assertEqual(audit(d)[3].status,"FAIL"); self.assertEqual(audit(d)[7].status,"WARN")
+ def test_escaped_windows_absolute_path(self):
+  d=self.make(); (d/"workspace.json").write_text('{"authorizedRoots": ["C:\\\\Users\\\\developer\\\\project"]}\n'); self.assertEqual(audit(d)[7].status,"WARN")
  def test_secret_not_printed(self):
-  d=self.make(); (d/".env.example").write_text("TOKEN=sk-12345678901234567890\n"); cs=audit(d); text=report(cs,d); self.assertNotIn("12345678901234567890",text); self.assertEqual(cs[6].status,"FAIL")
+  d=self.make(); fake_secret="sk-" + "x" * 20; (d/".env.example").write_text(f"TOKEN={fake_secret}\n"); cs=audit(d); text=report(cs,d); self.assertNotIn(fake_secret,text); self.assertEqual(cs[6].status,"FAIL")
 class CliTests(unittest.TestCase):
  def test_invalid_path(self):
   p=subprocess.run(["python3","-m","clone_to_confidence.cli","audit","/does/not/exist"],capture_output=True,text=True); self.assertNotEqual(p.returncode,0)

@@ -20,8 +20,9 @@ def _files(root):
   if any(x in EXCLUDED for x in p.relative_to(root).parts) or p.is_symlink() or not p.is_file():continue
   if p.suffix.lower() in TEXT_EXTENSIONS or p.name in {"Dockerfile","Makefile","Procfile"}:yield p
 def _manifest(root):
- maps={"pyproject.toml":"uv.lock","requirements.txt":"requirements.txt","package.json":"package-lock.json","Cargo.toml":"Cargo.lock","go.mod":"go.sum"}
+ maps={"pyproject.toml":"uv.lock","package.json":"package-lock.json","Cargo.toml":"Cargo.lock","go.mod":"go.sum"}
  found=[x for x in maps if (root/x).exists()]
+ if not found and (root/"requirements.txt").exists(): return (["requirements.txt"],[])
  return (found,[maps[x] for x in found if (root/maps[x]).exists()]) if found else (None,[])
 def git_history(root):
  c,o=_run(["git","rev-parse","--is-inside-work-tree"],root)
@@ -65,6 +66,7 @@ def absolute_paths(root):
   try:lines=p.read_text(errors="replace").splitlines()
   except OSError:continue
   for i,line in enumerate(lines,1):
-   if pat.search(line) and "http://" not in line and "https://" not in line and "re.compile" not in line and "pat=re" not in line:hits.append(f"{p.relative_to(root)}:{i}")
+   normalized=line.replace("\\\\", "\\")
+   if pat.search(normalized) and "http://" not in line and "https://" not in line and "re.compile" not in line and "pat=re" not in line:hits.append(f"{p.relative_to(root)}:{i}")
  return Check("absolute_paths","Absolute local paths",WARN,"Possible machine-specific absolute paths were found; heuristics can over-report.",hits[:20],"Use relative paths or environment-based configuration.") if hits else Check("absolute_paths","Absolute local paths",PASS,"No likely machine-specific absolute paths were found.",[],"")
 def audit(root):return [git_history(root),dependency_lockfile(root),pinned_runtime(root),dockerfile(root),test_command(root),readme(root),env_example(root),absolute_paths(root)]
