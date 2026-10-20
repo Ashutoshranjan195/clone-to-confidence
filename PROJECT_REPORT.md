@@ -66,7 +66,11 @@ Main commands:
 
 The application dependency list is empty. `uv.lock` pins the build environment resolution.
 
-## 5. Tests and checks executed
+## 5. Buildathon track recommendation
+
+Recommended track: **Developer Tools & Open Source**. The project is a local developer CLI that audits reproducibility, provides evidence-backed remediation, and verifies repositories with Docker when available. It does not depend on a hosted service, paid API, or generic AI coding workflow.
+
+## 6. Tests and checks executed
 
 All commands ran from `/c/Users/ashutosh/omnirush.ai`.
 
@@ -78,13 +82,14 @@ All commands ran from `/c/Users/ashutosh/omnirush.ai`.
 | CLI text audit | PASS — 8 PASS, 0 FAIL, 0 WARN |
 | CLI JSON audit | PASS — valid JSON |
 | CLI verification | PASS for static checks and tests |
+| Test suite with network namespace disabled via `unshare -n` | PASS — 7 tests |
 | Dry-run fixer coverage | PASS |
 | `git diff --check` | PASS |
 | Docker build | NOT RUN — Docker is unavailable in the environment |
 
 The verifier reported `Docker build: UNAVAILABLE`; Docker was not claimed as passing.
 
-## 6. Issues discovered and fixes applied
+## 7. Issues discovered and fixes applied
 
 - Removed tracked `.opencode/omnirush.json`, which contained a developer-specific absolute Windows workspace path.
 - Added `.opencode/` to `.gitignore` so generated workspace metadata is not published.
@@ -94,7 +99,7 @@ The verifier reported `Docker build: UNAVAILABLE`; Docker was not claimed as pas
 - Added regression coverage for escaped Windows paths.
 - Changed the synthetic secret test value to avoid committing a realistic-looking API token.
 
-## 7. Git status and commits
+## 8. Git status and commits
 
 Current repository:
 
@@ -106,6 +111,7 @@ Working tree: clean
 Recent commits:
 
 ```text
+643deca docs: record final release commit
 da19e30 docs: add project release report
 f1fdb70 chore: prepare project for public release
 d399ade fix: complete verification and clean audit
@@ -113,7 +119,7 @@ d399ade fix: complete verification and clean audit
 
 No GitHub remote is configured.
 
-## 8. GitHub publishing status
+## 9. GitHub publishing status
 
 **Not published.** GitHub publication could not be completed from this environment because:
 
@@ -136,7 +142,7 @@ git push -u origin master
 
 After pushing, verify the URL and branch on GitHub before treating the project as published.
 
-## 9. Security checks and remaining risks
+## 10. Security checks and remaining risks
 
 Completed checks:
 
@@ -154,7 +160,7 @@ Remaining risks:
 - The Docker image was not built here because Docker is unavailable.
 - The source contains the regex used to detect Windows absolute paths; this is detector logic, not a machine-specific path.
 
-## 10. Limitations and recommended improvements
+## 11. Limitations and recommended improvements
 
 - Add CI for Python 3.12, unit tests, `uv lock --check`, package builds, and security scanning.
 - Run and record a real Docker build on a host with Docker installed.
@@ -162,7 +168,26 @@ Remaining risks:
 - Add a release tag and GitHub repository metadata after publication.
 - Consider adding a `SECURITY.md`, contribution guide, and changelog for a larger public community.
 
-## 11. Final readiness assessment
+## 12. Buildathon submission preparation
+
+- Recommended track: Developer Tools & Open Source
+- Public GitHub URL: not available; no push has succeeded
+- Concise description: “Clone to Confidence audits repositories for clean-machine rebuildability, explains failures with evidence, proposes safe fixes, and verifies Docker builds without executing code during audit.”
+- Relevant OmniRush build session: `ses_eab191c06ffeJzn2r3dp5pZBmT` (`Clone to Confidence CLI Implementation`)
+- Demo video: not available in this workspace
+- Live demo: not available; the product is a local CLI
+- Submission ID: not created
+
+Final manual submission checklist:
+
+1. Create or select a public GitHub repository named `clone-to-confidence`.
+2. Push the clean `master` branch and record the actual public URL.
+3. Run the Docker build on a host with Docker installed and record the result.
+4. Optionally record a short terminal demo showing audit, JSON output, safe dry-run, and verify commands.
+5. Open `https://omnirush.ai/console/buildathon`, select Developer Tools & Open Source, enter the actual GitHub URL, add the description and session ID above, review the checklist, and submit manually.
+6. Do not invent demo links, a Submission ID, or a repository URL.
+
+## 13. Final readiness assessment
 
 **Ready for public source publication, with one unverified environment-dependent item.**
 
