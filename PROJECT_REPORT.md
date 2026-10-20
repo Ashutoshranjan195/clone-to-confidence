@@ -106,9 +106,9 @@ Working tree: clean
 Recent commits:
 
 ```text
+da19e30 docs: add project release report
 f1fdb70 chore: prepare project for public release
 d399ade fix: complete verification and clean audit
-00177d5 feat: build clone to confidence CLI
 ```
 
 No GitHub remote is configured.
