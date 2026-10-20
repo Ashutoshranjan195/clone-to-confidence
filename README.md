@@ -24,6 +24,10 @@ uv sync
 # or: python -m venv .venv && . .venv/bin/activate && pip install -e .
 ```
 
+## Setup
+
+Install the CLI with the commands below.
+
 ## Run
 
 For a packaged project, run the CLI with `clone-to-confidence audit PATH`.
@@ -62,7 +66,7 @@ Only missing `.env.example` and `.python-version` files are proposed for Python 
 clone-to-confidence verify .
 ```
 
-Verification is explicit. It runs static checks and attempts a real `docker build` when Docker is installed. It reports Docker as `UNAVAILABLE` when Docker cannot be found. This version does not guess or silently run README commands; test execution is deliberately reported as `SKIPPED` until a future explicit test-policy interface is added. Do not mount the host filesystem or Docker socket into untrusted builds: Docker verification is not a complete security sandbox.
+Verification is explicit. It runs static checks and attempts a real `docker build` when Docker is installed. It reports Docker as `UNAVAILABLE` when Docker cannot be found. The verifier executes only a small allowlist of documented test commands (`python -m unittest`, `pytest`, `npm test`, `cargo test`, or `go test`) using argument lists; unknown README commands remain `SKIPPED` rather than being guessed. Do not mount the host filesystem or Docker socket into untrusted builds: Docker verification is not a complete security sandbox.
 
 ## Test
 

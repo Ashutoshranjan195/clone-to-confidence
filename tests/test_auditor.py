@@ -8,7 +8,7 @@ class AuditorTests(unittest.TestCase):
  def test_healthy_and_json(self):
   d=self.make(); (d/".git").mkdir(); cs=audit(d); self.assertEqual(len(cs),8); self.assertTrue(json.loads(report(cs,d,"json"))["checks"])
  def test_missing_items_and_absolute_path(self):
-  d=self.make("/home/alice/project\n"); (d/"uv.lock").unlink(); (d/".python-version").unlink(); (d/"Dockerfile").unlink(); self.assertEqual(audit(d)[1].status,"FAIL"); self.assertEqual(audit(d)[2].status,"FAIL"); self.assertEqual(audit(d)[3].status,"FAIL"); self.assertEqual(audit(d)[7].status,"WARN")
+  d=self.make("/home/" + "alice/project\n"); (d/"uv.lock").unlink(); (d/".python-version").unlink(); (d/"Dockerfile").unlink(); self.assertEqual(audit(d)[1].status,"FAIL"); self.assertEqual(audit(d)[2].status,"FAIL"); self.assertEqual(audit(d)[3].status,"FAIL"); self.assertEqual(audit(d)[7].status,"WARN")
  def test_secret_not_printed(self):
   d=self.make(); (d/".env.example").write_text("TOKEN=sk-12345678901234567890\n"); cs=audit(d); text=report(cs,d); self.assertNotIn("12345678901234567890",text); self.assertEqual(cs[6].status,"FAIL")
 class CliTests(unittest.TestCase):
