@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clone to Confidence // local rebuildability audit</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <a class="wordmark" href="#audit" aria-label="Clone to Confidence home"><span class="mark">C<span>→</span></span><span>CLONE TO<br><b>CONFIDENCE</b></span></a>
+      <p class="tagline">prove the clone before you trust the claim</p>
+      <span class="demo-badge" id="mode-badge"><i></i> LOCAL / DEMO READY</span>
+      <nav aria-label="Dashboard sections"><a href="#audit">Audit</a><a href="#verify">Verify</a><a href="#fixes">Fixes</a></nav>
+    </header>
+
+    <main>
+      <section class="hero" id="audit">
+        <div class="eyebrow">REBUILDABILITY WORKBENCH <span>01 / 03</span></div>
+        <div class="hero-grid">
+          <div>
+            <h1>From “works here”<br><em>to confidence.</em></h1>
+            <p class="lede">A deterministic, offline-first read on whether a repository can survive a clean-machine clone.</p>
+          </div>
+          <div class="scope-note"><span class="note-icon">◎</span><div><b>STATIC BY DEFAULT</b><br>Audit reads evidence only. Verification is a separate, explicit action.</div></div>
+        </div>
+        <form class="workbench" id="audit-form">
+          <div id="local-path-controls"><label for="repo-path">REPOSITORY PATH</label><div class="path-row"><input id="repo-path" name="path" autocomplete="off" placeholder="C:\path\to\repository" required><button class="button primary" id="audit-submit" type="submit"><span>Run audit</span><b>↗</b></button></div></div>
+          <div class="form-foot"><button class="button secondary" id="demo-button" type="button">Run demo audit <span>→</span></button><span id="scope-copy">Existing directories only · no repository code is executed</span></div>
+          <p class="public-mode-note hidden" id="public-mode-note">Hosted demo mode · read-only bundled fixture. No local paths, fixes, or verification commands are accepted.</p>
+        </form>
+        <div class="notice" id="notice" role="status" aria-live="polite"></div>
+      </section>
+
+      <section class="results" id="results" aria-live="polite">
+        <div class="empty-state" id="empty-state"><div class="empty-glyph">⌁</div><h2>Ready when you are.</h2><p>Point the workbench at a repository or load the demo fixture to see eight proof points.</p></div>
+        <div class="dashboard hidden" id="dashboard">
+          <div class="section-heading"><div><div class="eyebrow">AUDIT READOUT <span>STATIC EVIDENCE</span></div><h2>Confidence, in eight checks.</h2></div><button class="button quiet" id="export-button" type="button">Export JSON <span>↓</span></button></div>
+          <div class="summary-grid">
+            <div class="score-panel"><div class="meter" id="meter"><div><strong id="score">—</strong><small>/ 100</small></div></div><div><span class="label">CONFIDENCE SCORE</span><h3 id="overall-status">Awaiting audit</h3><p id="last-run">No run yet</p><small class="score-formula" id="score-formula">PASS 100 · WARN 50 · FAIL 0 · unavailable 25</small></div></div>
+            <div class="stat"><span class="label">PASS</span><strong class="pass" id="pass-count">0</strong><small>evidence met</small></div><div class="stat"><span class="label">FAIL</span><strong class="fail" id="fail-count">0</strong><small>needs attention</small></div><div class="stat"><span class="label">WARN</span><strong class="warn" id="warn-count">0</strong><small>heuristic flags</small></div><div class="stat"><span class="label">UNAVAILABLE</span><strong class="unavailable" id="unavailable-count">0</strong><small>not available</small></div>
+          </div>
+          <div class="repo-line"><span class="label">CHECKED REPOSITORY</span><code id="checked-repo">—</code><span class="run-state" id="run-state">IDLE</span></div>
+          <div class="checks-grid" id="checks-grid"></div>
+        </div>
+      </section>
+
+      <section class="how-it-works" aria-labelledby="how-title"><div class="eyebrow">ABOUT THE READOUT <span>HONEST BOUNDARIES</span></div><h2 id="how-title">Evidence, not a promise.</h2><div class="how-grid"><p><b>Checks:</b> history, lockfiles, runtime pins, Docker packaging, tests, README guidance, environment placeholders, and machine-specific paths.</p><p><b>Does not guarantee:</b> correctness, security, production capacity, or that a dependency will remain available. Verification reports the environment it can actually reach.</p></div></section>
+
+       <section class="lower-grid" id="verify">
+         <article class="panel verify-panel"><div class="eyebrow">02 / VERIFY <span>EXPLICIT EXECUTION</span></div><h2>Make the proof run.</h2><p>Static checks are only half the story. The verifier may build Docker and run one documented, allowlisted test command.</p><div class="verify-status"><div class="verify-row"><span><i class="status-dot" id="docker-dot"></i> Docker build</span><b id="docker-status">NOT RUN</b></div><div class="evidence" id="docker-evidence">Verification has not been requested.</div><div class="verify-row"><span><i class="status-dot" id="tests-dot"></i> Test command</span><b id="tests-status">NOT RUN</b></div><div class="evidence" id="tests-evidence">Only documented allowlisted commands are considered.</div></div><p class="action-hint" id="verify-hint">Run an audit first to unlock explicit verification.</p><button class="button secondary" id="verify-button" type="button" disabled aria-describedby="verify-hint">Verify repository <span>↗</span></button></article>
+        <article class="panel fixes-panel" id="fixes"><div class="eyebrow">03 / FIXES <span>CREATE-ONLY</span></div><h2>Close the safe gaps.</h2><p>Preview deterministic additions first. Nothing is written until you explicitly confirm the apply action.</p><div class="fix-list" id="fix-list"><div class="fix-placeholder">Run an audit to generate a dry-run proposal.</div></div><div class="fix-actions"><button class="button secondary" id="dry-run-button" type="button" disabled>Preview safe fixes</button><button class="button danger" id="apply-button" type="button" disabled>Apply safe fixes</button></div><div class="confirm hidden" id="confirm-box"><span>Write only the proposed new files?</span><button class="button danger small" id="confirm-button" type="button">Confirm apply</button><button class="text-button" id="cancel-button" type="button">Cancel</button></div></article>
+      </section>
+    </main>
+    <footer><span>CLONE TO CONFIDENCE</span><span>offline-first · evidence over promises · bound to 127.0.0.1</span></footer>
+  </div>
+  <script src="/app.js" defer></script>
+</body>
+</html>

@@ -16,6 +16,17 @@ class VerifierTests(unittest.TestCase):
             ["uv", "run", "python", "-m", "unittest", "discover", "-s", "tests", "-v"],
         )
 
+    def test_prefers_uv_run_when_readme_also_has_bare_test_command(self):
+        root = Path(tempfile.mkdtemp())
+        (root / "README.md").write_text(
+            "docker run image python -m unittest discover -s tests -v\n"
+            "uv run python -m unittest discover -s tests -v\n"
+        )
+        self.assertEqual(
+            _documented_test(root),
+            ["uv", "run", "python", "-m", "unittest", "discover", "-s", "tests", "-v"],
+        )
+
     def test_failed_test_reports_redacted_evidence(self):
         root = Path(tempfile.mkdtemp())
         (root / "README.md").write_text("## Test\nuv run python -m unittest discover -s tests -v\n")
@@ -38,3 +49,9 @@ class VerifierTests(unittest.TestCase):
             text=True,
             timeout=120,
         ))
+
+    def test_skipped_tests_explain_why_nothing_ran(self):
+        root = Path(tempfile.mkdtemp())
+        result = verify(root)
+        self.assertEqual(result["tests"]["status"], "SKIPPED")
+        self.assertIn("No allowlisted documented test command", result["tests"]["evidence"])

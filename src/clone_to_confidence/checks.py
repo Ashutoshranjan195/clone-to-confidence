@@ -4,7 +4,7 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 PASS, FAIL, WARN, SKIPPED, UNSUPPORTED = "PASS", "FAIL", "WARN", "SKIPPED", "UNSUPPORTED"
 TEXT_EXTENSIONS={".md",".txt",".toml",".yaml",".yml",".json",".ini",".cfg",".py",".js",".ts",".sh",".env",".example"}
-EXCLUDED={".git",".venv","venv","node_modules","__pycache__",".pytest_cache","dist","build",".tox", "PROJECT_REPORT.md"}
+EXCLUDED={".git",".venv",".venv-windows","venv","node_modules","__pycache__",".pytest_cache","dist","build",".tox", "PROJECT_REPORT.md"}
 @dataclass
 class Check:
  id:str; name:str; status:str; explanation:str; evidence:list[str]; remediation:str

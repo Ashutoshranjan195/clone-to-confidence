@@ -1,8 +1,10 @@
 .git
 .venv
+.venv-windows
 __pycache__
 *.pyc
 .env
 .env.*
 !.env.example
 .opencode
+node_modules

@@ -30,6 +30,7 @@ def _documented_test(root: Path):
     readme = root / "README.md"
     if not readme.exists():
         return None
+    fallback = None
     for line in readme.read_text(errors="replace").splitlines():
         command = line.strip().removeprefix("$").strip()
         try:
@@ -42,15 +43,25 @@ def _documented_test(root: Path):
             tokens = tokens[2:]
         normalized = " ".join(tokens)
         if any(pattern.fullmatch(normalized) for pattern in _SAFE_TESTS):
-            return prefix + tokens
-    return None
+            candidate = prefix + tokens
+            if prefix:
+                return candidate
+            fallback = fallback or candidate
+    return fallback
 
 def _result_evidence(process: subprocess.CompletedProcess[str]) -> str:
     output = (process.stdout or "") + (process.stderr or "")
     return _redact_output(output[-2000:])
 
 def verify(root: Path):
-    result = {"static": audit(root), "docker": {"status": "UNAVAILABLE", "evidence": []}, "tests": {"status": "SKIPPED", "evidence": []}}
+    result = {
+        "static": audit(root),
+        "docker": {"status": "UNAVAILABLE", "evidence": []},
+        "tests": {
+            "status": "SKIPPED",
+            "evidence": "No allowlisted documented test command was found in README.md; tests were not run.",
+        },
+    }
     docker = shutil.which("docker")
     if docker and (root / "Dockerfile").exists():
         try:
