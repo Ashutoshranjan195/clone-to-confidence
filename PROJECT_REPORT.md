@@ -101,6 +101,14 @@ The verifier reported `Docker build: UNAVAILABLE`; Docker was not claimed as pas
 
 ## 8. Git status and commits
 
+Verified current state in this session:
+
+```text
+Branch: master
+Working tree: clean
+Remote: none configured
+```
+
 Current repository:
 
 ```text
@@ -111,6 +119,7 @@ Working tree: clean
 Recent commits:
 
 ```text
+9a9558a docs: add buildathon submission details
 643deca docs: record final release commit
 da19e30 docs: add project release report
 f1fdb70 chore: prepare project for public release
@@ -169,6 +178,8 @@ Remaining risks:
 - Consider adding a `SECURITY.md`, contribution guide, and changelog for a larger public community.
 
 ## 12. Buildathon submission preparation
+
+- Deadline: **20 October 2026 at 11:59 PM IST**, as provided by the user; this deadline was not independently verified from the authenticated dashboard in this session.
 
 - Recommended track: Developer Tools & Open Source
 - Public GitHub URL: not available; no push has succeeded
